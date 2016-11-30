@@ -36,7 +36,9 @@ public void getPostbyLocation(){
                     });
                     System.out.println(String.format("Key %s entered the search area at [%f,%f]", key, location.latitude, location.longitude));
                 }
+```
 
+```java
                 @Override
                 public void onKeyExited(String key) {
                     mDatabase.child("posts_locations_by_user").removeValue();
