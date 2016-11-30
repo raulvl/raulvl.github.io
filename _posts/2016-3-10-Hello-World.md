@@ -11,36 +11,44 @@ Estuve un tiempo tratando de pensar como solucionarlo hasta el punto de asumir q
 Finalmente, gracias a esta información entendí que es necesario en ciertos casos, duplicar o replicar información relevante de algunos nodos en pos de eficiencia operativa y manejo de datos. Conociendo esta información, me decidí por replicar la información de cada usuario en base a su ubicación y solo modificarla cuando el usuario abandona la ubicación o radio preestablecido por *Geofire*. 
 
 Un extracto de la implementación la pueden ver a continuación: 
-
-
-```java 
+```
 public void getPostbyLocation(){
         GeoFire geoFire = new GeoFire(mDatabase.child("post_locations"));
         GPSTracker gps = new GPSTracker(getContext());
         if(gps.canGetLocation()){
+
             double latitude = gps.getLatitude();
             double longitude = gps.getLongitude();
             GeoQuery geoQuery = geoFire.queryAtLocation(new GeoLocation(latitude,longitude), 20);
+
             geoQuery.addGeoQueryEventListener(new GeoQueryEventListener() {
                 @Override
                 public void onKeyEntered(final String key, GeoLocation location) {
+
                     mDatabase.child("posts").child(key).addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
+                            //final String key_locations = databaseReference.child("post_locations").push().getKey();
+
                             Post p = dataSnapshot.getValue(Post.class);
                             Map<String, Object> postValues = p.toMap();
                             Map<String, Object> childUpdates = new HashMap<>();
                             childUpdates.put("/posts_locations_by_user/"+ getUid() +"/"+ key, postValues);
                             mDatabase.updateChildren(childUpdates);
+
+
+
+
                         }
+
                         @Override
-                        public void onCancelled(DatabaseError databaseError) {}
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
                     });
                     System.out.println(String.format("Key %s entered the search area at [%f,%f]", key, location.latitude, location.longitude));
                 }
-```
 
-```java
                 @Override
                 public void onKeyExited(String key) {
                     mDatabase.child("posts_locations_by_user").removeValue();
@@ -66,11 +74,15 @@ public void getPostbyLocation(){
             // can't get location
             // GPS or Network is not enabled
             // Ask user to enable GPS/network in settings
+
             gps.showSettingsAlert();
         }
+
     }
+
 ```
 Podemos ver que defino una *Geoquery (Geofire Query)* en base a mi ubicación, para que encuentre los *posts* más cercanos en base a mi ubicación en un radio de 20 *km*. De esta forma cuando encuentra los *posts* en *OnKeyEntered()*, lo que hago es crear un nuevo nodo, que se identifique por el *uid* del usuario para almacenar los posts cercanos. De esta forma, los posts cercanos se mantienen almacenados solo mientras el usuario se mantenga en ese radio; al salir de éste, en el método *OnKeyExited*, se eliminan los nodos anteriores por el resultado de la nueva *Geo Query*. 
 
 De esta forma, finalmente puedo obtener la información que necesitaba sin necesitar crear un adaptador ni limitarme por las convenciones que presenta el adaptador de Firebase. 
  
+
