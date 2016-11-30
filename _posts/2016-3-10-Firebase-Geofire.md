@@ -9,9 +9,9 @@ De cualquier forma, dentro del proyecto que estoy desarrollando [(Tobara)](https
 Estuve un tiempo tratando de pensar como solucionarlo hasta el punto de asumir que había perdido y que tendría que implementar mi adaptador desde cero. Afortunadamente, revisando información por internet llegué al blog de *Google* donde encontré este [link](https://firebase.googleblog.com/2013/04/denormalizing-your-data-is-normal.html) que me hizo entender mejor como funciona Firebase y su Base de datos. La clave es entender que a diferencia de las bases de datos relacionales, es necesario denormalizar los datos para poder realizar consultas de manera eficiente. 
 
 Finalmente, gracias a esta información entendí que es necesario en ciertos casos, duplicar o replicar información relevante de algunos nodos en pos de eficiencia operativa y manejo de datos. Conociendo esta información, me decidí por replicar la información de cada usuario en base a su ubicación y solo modificarla cuando el usuario abandona la ubicación o radio preestablecido por *Geofire*. 
-
 Un extracto de la implementación la pueden ver a continuación: 
-```
+
+```java
 public void getPostbyLocation(){
         GeoFire geoFire = new GeoFire(mDatabase.child("post_locations"));
         GPSTracker gps = new GPSTracker(getContext());
