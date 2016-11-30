@@ -11,6 +11,8 @@ Estuve un tiempo tratando de pensar como solucionarlo hasta el punto de asumir q
 Finalmente, gracias a esta información entendí que es necesario en ciertos casos, duplicar o replicar información relevante de algunos nodos en pos de eficiencia operativa y manejo de datos. Conociendo esta información, me decidí por replicar la información de cada usuario en base a su ubicación y solo modificarla cuando el usuario abandona la ubicación o radio preestablecido por *Geofire*. 
 
 Un extracto de la implementación la pueden ver a continuación: 
+
+
 ```java 
 public void getPostbyLocation(){
         GeoFire geoFire = new GeoFire(mDatabase.child("post_locations"));
