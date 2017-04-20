@@ -9,7 +9,7 @@ My interests consider Free/Open Source Software, Web and mobile Development, Bus
 Ingeniero Civil Informático de la Universidad de Concepción. Mis intereses consideran el Software libre, Desarrollo Web y de aplicaciones móviles, Inteligencia de negocios y Gestión Informática. 
 
 ### Currículum / Resume
-[CV.pdf](https://dl.dropboxusercontent.com/u/9576010/cvrvl2016.pdf)
+[CV.pdf](https://www.dropbox.com/s/64nu3bf2ipliuvl/cvrvl2016.pdf?dl=0)
 
 ### Contáctame / Contact me
 
